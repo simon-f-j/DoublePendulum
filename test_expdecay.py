@@ -5,6 +5,9 @@ from exp_decay import ExponentialDecay
 
 
 
+def test_exp_decay_raisesValueError():
+    with pytest.raises(ValueError):
+        ExponentialDecay(-0.4)
 
 
 def test_exp_decay():
