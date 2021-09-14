@@ -5,8 +5,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-class Pendulum():
-    def __init__(self, L, M, g=9.81):
+
+
+class Pendulum_2():
+    def __init__(self, L=1, M=1, g=9.81):
         self.L = L  # length of pendulum [m]
         self.M = M  # mass of pendulum [kg]
         self.g=g    # gravitational acceleration [kg/ms**2]
@@ -18,6 +20,9 @@ class Pendulum():
         self.__y = None
         self.__P = None
         self.__K = None
+        self.__vx = None
+        self.__vy = None
+
 
 
     @property
@@ -46,7 +51,7 @@ class Pendulum():
     @t.setter
     def t(self, y):
         self.__t = y
-
+    
     @property
     def x(self):
         return self.__x   
@@ -75,39 +80,92 @@ class Pendulum():
     def K(self, y):
         self.__K = y
 
+    @property
+    def vx(self):
+        return self.__vx
+    @vx.setter
+    def vx(self, y):
+        self.__vx = y
 
+    @property
+    def vy(self):
+        return self.__vy
+    @vy.setter
+    def vy(self, y):
+        self.__vy = y
+
+    @property
+    def kinetic(self):
+        v_x = np.gradient(self.vx, 0.1)
+        v_y = np.gradient(self.vy, 0.1)
+        return 0.5*self.M*(np.power(v_x,2) + np.power(v_y,2))
+
+
+
+    
     def __call__(self, t, y):
         theta, omega = y
+        g, L = self.g, self.L
+
         theta_dot = omega
-        omega_dot = (-self.g/self.L)*np.sin(theta)
+        omega_dot = (-g/L)*np.sin(theta)
 
         return theta_dot, omega_dot
 
-    def solve(self,y0, T, dt,angle="rad"):
-        #P, x, y, omega, theta, M, g, L  = self.P, self.x, self.y, self.omega, self.theta, self.M, self.g, self.L
+
+
+
+
+    def solve(self, y0,T,dt,angle="rad"):
         if angle == "deg":
             y0_rad = (np.radians(y0[0]),y0[1])
         elif angle =="rad":
             y0_rad = y0
 
         interval = np.arange(0,T,dt)
-        res = solve_ivp(self, y0=(y0_rad),t_span=[0,T], t_eval=interval)
-        self.t = res.t
-        self.omega = res.y[0]
-        self.theta = res.y[1]
-        self.y = self.L*np.sin(self.theta)
-        self.x = (-self.L)*np.cos(self.theta)
-        
-        self.P = self.M*self.g*(self.y + self.L)
+
+        self.solution = solve_ivp(self,y0=y0_rad,t_span=[0,T], t_eval=interval)
+        self.theta = self.solution.y[0]
+        self.omega = self.solution.y[1]
+        self.t = self.solution.t[0]
+
+        self.x = self.L*np.sin(self.theta)
+        self.y = -self.L*np.cos(self.theta)
+        self.t = interval
+
+        # potential energy
+        mg = self.M*self.g
+        self.P = mg*(self.y+self.L)
+
+        # kinetic energy
+        self.vx = np.gradient(test.x, dt)
+        self.vy = np.gradient(test.y, dt)
+
+        self.K = 0.5*self.M*(np.power(self.vx,2) + np.power(self.vy,2))
 
 
-if __name__=="__main__":
-    test = Pendulum(2.7,1)
-    test.solve((30,0),10,0.1,angle="deg")
-    plt.plot(test.P)
+
+
+
+if __name__ =="__main__":
+    test = Pendulum_2(2.7)
+    print(test(None,(0,0)))
+    print(test(None,(np.pi/6,0.15)))
+    test.solve((np.pi/2,0),10,0.1)
+    
+    plt.figure("Theta v Time")
+    plt.plot(test.t,test.theta)
+    plt.legend("theta")
+    plt.xlabel("Time [s]")
+    plt.ylabel("Angle [rad]")
+    plt.figure("Potential v Kinetic energy")
+    plt.plot(test.t,test.P)
+    plt.legend("potential energy")
+    plt.plot(test.t,test.K)
+    plt.legend("kinetic energy")
+    plt.xlabel("Time [s]")
+    plt.ylabel("Energy [N]")
+    # plt.plot(test.t,test.P)
     plt.show()
-
-
-
 
 # %%

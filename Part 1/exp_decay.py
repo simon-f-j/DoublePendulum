@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 
 
 class ExponentialDecay():
+    """Class for solving exponential decay."""
     def __init__(self, a):
         if a > 0 : self.a = a
         elif a < 0 : raise ValueError('a should be a positive number')
