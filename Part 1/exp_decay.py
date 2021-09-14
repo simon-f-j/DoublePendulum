@@ -1,7 +1,7 @@
-
+#%%
 from scipy.integrate import solve_ivp
-from math import exp
-from numpy import linspace
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 
@@ -15,9 +15,9 @@ class ExponentialDecay():
         return dudt
     
     def solve(self, u0, T, dt):
-        interval = linspace(dt,T)
+        interval = np.arange(0,T,dt)
         res = solve_ivp(self, y0=[u0],t_span=[0,T], t_eval=interval)
-        return res
+        return res.t, res.y
 
 
 
@@ -25,5 +25,10 @@ class ExponentialDecay():
 
 if __name__ == "__main__":
     test = ExponentialDecay(0.4)
+    t, u = test.solve(5,10,0.1)
+    plt.plot(t,u[0])
+    plt.show()
     print(test.a)
 
+
+# %%
