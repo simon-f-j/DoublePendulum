@@ -1,6 +1,8 @@
 #%%
+from scipy import integrate
 from scipy.integrate import solve_ivp
 from math import exp
+import matplotlib as plt
 
 
 
@@ -13,8 +15,8 @@ class ExponentialDecay():
         dudt = (-self.a)*u
         return dudt
     
-    
-
+    def solve(self, u0, T, dt):
+        return solve_ivp(u0, T, dt)
 
 
 
