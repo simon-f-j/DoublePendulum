@@ -138,8 +138,8 @@ class Pendulum_2():
         self.P = mg*(self.y+self.L)
 
         # kinetic energy
-        self.vx = np.gradient(test.x, dt)
-        self.vy = np.gradient(test.y, dt)
+        self.vx = np.gradient(self.x, dt)
+        self.vy = np.gradient(self.y, dt)
 
         self.K = 0.5*self.M*(np.power(self.vx,2) + np.power(self.vy,2))
 
@@ -167,5 +167,7 @@ if __name__ =="__main__":
     plt.ylabel("Energy [N]")
     # plt.plot(test.t,test.P)
     plt.show()
+
+# %%
 
 # %%
