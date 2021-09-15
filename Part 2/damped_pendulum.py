@@ -31,6 +31,12 @@ class DampenedPendulum(Pendulum_2):
         omega_dot = (-g/L)*np.sin(theta) - (B/M)*(omega)
 
         return theta_dot, omega_dot
-        
+    
+
+if __name__=="__main__":
+    test = DampenedPendulum(2.7,1)
+    test.solve((45,0),10,0.1,angle="deg")
+    plt.plot(test.x,test.y)
+    plt.show()
     
 # %%
