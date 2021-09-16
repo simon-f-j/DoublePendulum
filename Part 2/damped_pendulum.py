@@ -1,12 +1,12 @@
 #%%
-from pendulum_2 import Pendulum_2
+from pendulum import Pendulum
 from operator import xor
 from scipy.integrate import solve_ivp
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-class DampenedPendulum(Pendulum_2):
+class DampenedPendulum(Pendulum):
     def __init__(self, L=1, M=1, B=1, g=9.81):
         self.L = L  # length of pendulum [m]
         self.M = M  # mass of pendulum [kg]
@@ -55,7 +55,7 @@ class DampenedPendulum(Pendulum_2):
                                                 self._next_frame,
                                                 frames=range(len(self.x)), 
                                                 repeat=None,
-                                                interval=1000*self.dt, 
+                                                interval=1000*(1/60), 
                                                 blit=True)
 
     def _next_frame(self, i):
@@ -66,7 +66,7 @@ class DampenedPendulum(Pendulum_2):
 
 if __name__=="__main__":
     test = DampenedPendulum(2.7,1)
-    test.solve((45,0),100,0.1,angle="deg")
+    test.solve((45,0),100,1/60,angle="deg")
     test.create_animation()
     plt.show()
 
