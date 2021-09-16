@@ -37,4 +37,5 @@ def test_domega2_dt(theta1, theta2, expected):
     y = (theta1, 0.25, theta2, 0.15)
     _, _, dtheta2_dt, domega2_dt = dp(t, y)
     assert np.isclose(dtheta2_dt, 0.15)
-    assert np.isclose(domega2_dt, expected,atol=0.01,rtol=0.1)
+    assert np.isclose(domega2_dt, expected)
+

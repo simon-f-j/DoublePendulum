@@ -125,17 +125,17 @@ class DoublePendulum():
         theta1_dot = omega1
         theta2_dot = omega2
 
-        eq1_over = (L1*omega1**2*np.sin(delta_theta)*np.cos(delta_theta)
-                    + g*np.sin(theta2)*np.cos(delta_theta)
-                    + L2*omega2**2*np.sin(delta_theta)
-                    - 2*g*np.sin(theta1))
+        eq1_over = (L1 * omega1**2 * np.sin(delta_theta) * np.cos(delta_theta)
+                    + g * np.sin(theta2) * np.cos(delta_theta)
+                    + L2 * omega2**2 * np.sin(delta_theta)
+                    - 2 * g * np.sin(theta1))
         
-        eq1_under = 2*L1 - L1*np.cos(delta_theta)**2
+        eq1_under = (2*L1 - L1*np.cos(delta_theta)**2)
 
-        eq2_over = ((-L2)*omega2**2*np.sin(delta_theta)
-                    + 2*g*np.sin(theta1)*np.cos(delta_theta)
-                    - 2*L1*omega1**2*np.sin(delta_theta)
-                    - 2*g*np.sin(theta2))
+        eq2_over = ((-L2) * omega2**2 * np.sin(delta_theta) * np.cos(delta_theta)
+                    + 2 * g * np.sin(theta1) * np.cos(delta_theta)
+                    - 2 * L1 * omega1**2 * np.sin(delta_theta)
+                    - 2 * g * np.sin(theta2))
         
         eq2_under = 2*L2 - L2*np.cos(delta_theta)**2
 
@@ -200,8 +200,8 @@ if __name__=="__main__":
     test.solve(y,10,0.1)
 
 
-    plt.plot(test.t,test.K)
-    plt.plot(test.t,test.P)
+    #plt.plot(test.t,test.K)
+    #plt.plot(test.t,test.P)
     plt.plot(test.t,test.Etotal)
     plt.show()
 
