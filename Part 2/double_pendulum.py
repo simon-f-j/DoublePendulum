@@ -1,3 +1,4 @@
+
 from scipy.integrate import solve_ivp
 import numpy as np
 import matplotlib.pyplot as plt
@@ -70,10 +71,21 @@ class DoublePendulum():
         return theta1_dot, omega1_dot, theta2_dot, omega2_dot
 
 
+    def solve(self, y0, T, dt, angle="rad"):
+        if angle == "deg":
+            y0_rad = (np.radians(y0[0]),y0[1],np.radians(y0[2]), y0[3])
+        elif angle =="rad":
+            y0_rad = y0
 
-        
+        # creating a vector with steplength dt from 0 to T
+        interval = np.arange(0,T,dt)
 
+        # solving the equation with initial conditions y0, for the specified vector
+        self.solution = solve_ivp(self,y0=y0_rad,t_span=[0,T], t_eval=interval,method="Radau")
 
+        # storing the variables theta_1 and theta_2 on their respective attributes
+        self.theta1 = self.solution.y[0]
+        self.theta2 = self.solution.y[2]
 
 
 
@@ -86,3 +98,5 @@ if __name__=="__main__":
     y = (theta1, 0.25, theta2, 0.15)
 
     test = DoublePendulum()
+
+
