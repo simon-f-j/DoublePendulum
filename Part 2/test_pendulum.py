@@ -1,7 +1,7 @@
 #%%
 from scipy.integrate._ivp.radau import T
 from pendulum import Pendulum
-from pendulum_2 import Pendulum_2
+from pendulum import Pendulum
 import numpy as np
 import pytest
 
@@ -28,7 +28,7 @@ def test_Pendulum_call():
     theta = np.pi/6
     g=9.81
 
-    pend = Pendulum_2(2.7,1)
+    pend = Pendulum(2.7,1)
     theta_dot,omega_dot = pend(None,(theta,omega))
     
     theta_dot_hand = omega
@@ -53,7 +53,7 @@ def test_Pendulum_at_rest():
 
 
 def test_Pendulum_properties():
-    pend = Pendulum_2(2.7,1)
+    pend = Pendulum(2.7,1)
     with pytest.raises(Exception):
         pend.theta
         pend.omega
@@ -61,7 +61,7 @@ def test_Pendulum_properties():
 
 
 def test_Pendulum_initialcondition():
-    pend = Pendulum_2(2.7,1)
+    pend = Pendulum(2.7,1)
     theta_initial = 0
     omega_initial = 0
     T = 10
