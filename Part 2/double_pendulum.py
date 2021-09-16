@@ -14,11 +14,33 @@ class DoublePendulum():
         self.M = M  # mass of pendulum [kg]
         self.g=g    # gravitational acceleration [kg/ms**2]
         self.solution = None
+        self.__theta1 = None
+        self.__theta2 = None
         self.x1 = None
         self.y1 = None
         self.x2 = None
         self.y2 = None
         self.dt = None
+
+
+    @property
+    def theta1(self):
+        if self.__theta1 is None:
+            raise Exception("theta_1 is missing")
+        return self.__theta1
+    @theta1.setter
+    def theta1(self, y):
+        self.__theta1 = y
+
+    @property
+    def theta2(self):
+        if self.__theta2 is None:
+            raise Exception("theta_2 is missing")
+        return self.__theta2
+    @theta2.setter
+    def theta2(self, y):
+        self.__theta2 = y
+
 
     def __call__(self, t, y):
         theta1, omega1, theta2, omega2 = y
@@ -35,7 +57,7 @@ class DoublePendulum():
         
         eq1_under = 2*L1 - L1*np.cos(delta_theta)**2
 
-        eq2_over = ((-L2)*omega2**2*np.sin(delta_theta)
+        eq2_over = ((-L2)*np.exp2(omega2)*np.sin(delta_theta)
                     + 2*g*np.sin(theta1)*np.cos(delta_theta)
                     - 2*L1*omega1**2*np.sin(delta_theta)
                     - 2*g*np.sin(theta2))
