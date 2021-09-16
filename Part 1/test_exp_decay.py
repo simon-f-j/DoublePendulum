@@ -33,5 +33,5 @@ def test_Expdecay_solve():
     ed_t, ed_y = ed.solve(10,10,0.1)
 
     for item1,item2 in zip(manual_ans,ed_y[0]):
-        assert item2 == approx(item2)
-# %%
+        assert item1 == approx(item2,0.01)
+
